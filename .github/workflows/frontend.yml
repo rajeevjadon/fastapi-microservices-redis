@@ -21,7 +21,13 @@ jobs:
         registry: inventoryacrjk.azurecr.io
         username: inventoryacrjk
         password: ${{ secrets.ACR_PASS }}
-        
+
+    - name: Build and push Docker images
+      uses: docker/build-push-action@v6.18.0
+      with:
+        context: ./inventory_frontend
+        push: true
+        tags: inventoryacrjk.azurecr.io/inventoryapp:${{ github.run_id }}
 
     # - name: Azure Login
     #   uses: Azure/login@v2.3.0
