@@ -1,5 +1,7 @@
 name: FrontendUI
 trigger: none 
+pool:
+  name: windows-self-hosted
 steps:
   - task: PowerShell@2
     inputs:
