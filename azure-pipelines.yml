@@ -7,3 +7,4 @@ steps:
     inputs:
       targetType: 'inline'
       script: 'node -v'
+
