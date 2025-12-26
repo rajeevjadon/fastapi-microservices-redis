@@ -8,3 +8,17 @@ steps:
       targetType: 'inline'
       script: 'node -v'
 
+  - task: NodeTool@0
+    inputs:
+      versionSource: 'spec'
+      versionSpec: '18.x'
+
+  - task: Npm@1
+    inputs:
+      command: 'install'
+
+
+  - task: Npm@1
+    inputs:
+      command: 'custom'
+      customCommand: 'run build'
