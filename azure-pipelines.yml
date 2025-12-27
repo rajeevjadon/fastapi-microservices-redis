@@ -40,9 +40,10 @@ steps:
     customCommand: 'run build'
     workingDir: '$(Build.SourcesDirectory)/inventory_frontend'
 
+
 # 6️⃣ (OPTIONAL) Publish build artifact
 - task: PublishPipelineArtifact@1
   displayName: Publish Frontend Artifact
   inputs:
-    targetPath: '$(Build.SourcesDirectory)/inventory_frontend/dist'
+    targetPath: '$(System.DefaultWorkingDirectory)/inventory_frontend/dist'
     artifact: frontend-build
