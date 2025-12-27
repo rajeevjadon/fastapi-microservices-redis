@@ -21,6 +21,6 @@ steps:
   - task: Npm@1
     inputs:
       command: 'custom'
-      workingDir: '$(SystemDefaultWorkingDirectory)/inventory_frontend'
+      workingDir: '$(Build.SourcesDirectory)/inventory_frontend'
       customCommand: 'run build'
     
