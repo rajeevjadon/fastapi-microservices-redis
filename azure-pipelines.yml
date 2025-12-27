@@ -1,33 +1,48 @@
 name: FrontendUI
-trigger: none 
+trigger: none
+
 pool:
   name: windows-self-hosted
+
 steps:
+# 1️⃣ Clean checkout (MOST IMPORTANT for self-hosted agent)
+- checkout: self
+  clean: true
 
+# 2️⃣ Verify agent + workspace (optional but useful)
+- task: PowerShell@2
+  displayName: Agent & Workspace Check
+  inputs:
+    targetType: inline
+    script: |
+      echo "Build Sources Directory:"
+      echo $(Build.SourcesDirectory)
+      dir $(Build.SourcesDirectory)
 
-  - checkout: self
-    clean: true
+# 3️⃣ Install Node.js
+- task: NodeTool@0
+  displayName: Install Node.js
+  inputs:
+    versionSpec: '18.x'
 
+# 4️⃣ npm install
+- task: Npm@1
+  displayName: npm install
+  inputs:
+    command: install
+    workingDir: '$(Build.SourcesDirectory)/inventory_frontend'
 
+# 5️⃣ npm run build
+- task: Npm@1
+  displayName: npm run build
+  inputs:
+    command: custom
+    customCommand: 'run build'
+    workingDir: '$(Build.SourcesDirectory)/inventory_frontend'
 
-  - task: PowerShell@2
-    inputs:
-      targetType: 'inline'
-      script: 'node -v'
-
-  - task: NodeTool@0
-    inputs:
-      versionSource: 'spec'
-      versionSpec: '18.x'
-
-  - task: Npm@1
-    inputs:
-      command: 'install'
-      workingDir: '$(Build.SourcesDirectory)/inventory_frontend'
-
-  - task: Npm@1
-    inputs:
-      command: 'custom'
-      workingDir: '$(Build.SourcesDirectory)/inventory_frontend'
-      customCommand: 'run build'
-    
+# 6️⃣ (OPTIONAL) Publish build artifact
+- task: PublishPipelineArtifact@1
+  displayName: Publish Frontend Artifact
+  inputs:
+    targetPath: '$(Build.SourcesDirectory)/inventory_frontend/dist'
+    artifact: frontend-build
