@@ -18,8 +18,9 @@ steps:
       command: 'install'
       workingDir: '$(Build.SourcesDirectory)/inventory_frontend'
 
-
   - task: Npm@1
     inputs:
       command: 'custom'
+      workingDir: '$(SystemDefaultWorkingDirectory)/inventory_frontend'
       customCommand: 'run build'
+    
