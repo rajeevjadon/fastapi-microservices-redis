@@ -59,17 +59,17 @@ steps:
     downloadPath: '$(Pipeline.Workspace)'
 
 
-# Upload to Azure Blob Static Website
 - task: AzureCLI@2
   displayName: Deploy to Azure Blob Static Website
   inputs:
     azureSubscription: 'azure-prod-sc'
-    scriptType: bash
+    scriptType: ps
     scriptLocation: inlineScript
     inlineScript: |
-      az storage blob upload-batch \
-        --account-name todoartifact \
-        --destination '$web' \
-        --source $(Pipeline.Workspace)/drop-$(Build.BuildNumber)/inventory_frontend/dist \
+      az storage blob upload-batch `
+        --account-name todoartifact `
+        --destination '$web' `
+        --source "$(Pipeline.Workspace)\drop-$(Build.BuildNumber)\inventory_frontend\dist" `
         --overwrite
+
     
