@@ -50,9 +50,14 @@ steps:
     publishLocation: 'Container'
 
 
-  # Download artifact
-- download: current
-  artifact: drop-$(Build.BuildNumber)
+- task: DownloadBuildArtifacts@0
+  displayName: Download build artifact
+  inputs:
+    buildType: 'current'
+    downloadType: 'single'
+    artifactName: 'drop-$(Build.BuildNumber)'
+    downloadPath: '$(Pipeline.Workspace)'
+
 
 # Upload to Azure Blob Static Website
 - task: AzureCLI@2
