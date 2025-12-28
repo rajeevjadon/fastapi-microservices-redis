@@ -38,12 +38,13 @@ steps:
   inputs:
     command: custom
     customCommand: 'run build'
-    workingDir: '$(Build.SourcesDirectory)/inventory_frontend'
+    workingDir: '$(System.DefaultWorkingDirectory)/inventory_frontend'
 
 
 # 6️⃣ (OPTIONAL) Publish build artifact
-- task: PublishPipelineArtifact@1
-  displayName: Publish Frontend Artifact
+- task: PublishBuildArtifacts@1
+  displayName: Publish build artifact 
   inputs:
-    targetPath: '$(System.DefaultWorkingDirectory)/inventory_frontend/dist'
-    artifact: frontend-build
+    PathtoPublish: '$(System.DefaultWorkingDirectory)/inventory_frontend/dist'
+    ArtifactName: 'drop-$(Build.BuildNumber)'
+    publishLocation: 'Container'
