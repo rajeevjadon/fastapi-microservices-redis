@@ -48,3 +48,23 @@ steps:
     PathtoPublish: '$(System.DefaultWorkingDirectory)/inventory_frontend/dist'
     ArtifactName: 'drop-$(Build.BuildNumber)'
     publishLocation: 'Container'
+
+
+  # Download artifact
+- download: current
+  artifact: drop-$(Build.BuildNumber)
+
+# Upload to Azure Blob Static Website
+- task: AzureCLI@2
+  displayName: Deploy to Azure Blob Static Website
+  inputs:
+    azureSubscription: 'azure-prod-sc'
+    scriptType: bash
+    scriptLocation: inlineScript
+    inlineScript: |
+      az storage blob upload-batch \
+        --account-name todoartifact \
+        --destination '$web' \
+        --source $(Pipeline.Workspace)/drop-$(Build.BuildNumber)/inventory_frontend/dist \
+        --overwrite
+    
