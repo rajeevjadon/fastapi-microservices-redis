@@ -69,7 +69,5 @@ steps:
       az storage blob upload-batch `
         --account-name todoartifact `
         --destination '$web' `
-        --source "$(Pipeline.Workspace)\drop-$(Build.BuildNumber)\inventory_frontend\dist" `
+        --source "$(Pipeline.Workspace)\drop-FrontendUI\dist" `
         --overwrite
-
-    
