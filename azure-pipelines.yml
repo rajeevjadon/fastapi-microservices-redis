@@ -69,6 +69,22 @@ steps:
       dir $(Pipeline.Workspace)\drop-$(Build.BuildNumber)
 
 
+
+- task: AzureCLI@2
+  displayName: Enable Static Website (one-time)
+  inputs:
+    azureSubscription: 'azure-prod-sc'
+    scriptType: ps
+    scriptLocation: inlineScript
+    inlineScript: |
+      az storage blob service-properties update `
+        --account-name todoartifact `
+        --static-website `
+        --index-document index.html `
+        --404-document index.html `
+        --auth-mode login
+
+
 - task: AzureCLI@2
   displayName: Deploy to Azure Blob Static Website
   inputs:
