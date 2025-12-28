@@ -59,6 +59,16 @@ steps:
     downloadPath: '$(Pipeline.Workspace)'
 
 
+
+- task: PowerShell@2
+  displayName: Verify artifact structure
+  inputs:
+    targetType: inline
+    script: |
+      dir $(Pipeline.Workspace)
+      dir $(Pipeline.Workspace)\drop-$(Build.BuildNumber)
+
+
 - task: AzureCLI@2
   displayName: Deploy to Azure Blob Static Website
   inputs:
